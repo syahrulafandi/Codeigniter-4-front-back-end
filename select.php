@@ -11,40 +11,43 @@
     }
 ?>
 
+<div class="row">
+    <div class="col-4">
+        <a href="<?= base_url('/admin/user/create') ?>" class="btn btn-primary" role="button">TAMBAH USER</a>
+    </div>
+    <div class="col">
+        <h3><?= $judul;  ?></h3>
+    </div>
+</div>
+
 <div class="row mt-2">
     <div class="col">
 
         <table class="table">
             <tr>
                 <th>No</th>
-                <th>Nama</th>
-                <th>Alamat</th>
-                <th>Telepon</th>
+                <th>User</th>
                 <th>Email</th>
+                <th>Level</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
             <?php $no ?>
-            <?php foreach($pelanggan as $key => $value): ?>
+            <?php foreach($user as $key => $value): ?>
             <tr>
                 <td><?= $no++ ?></td>
-                <td><?= $value['pelanggan'] ?></td>
-                <td><?= $value['alamat'] ?></td>
-                <td><?= $value['telp'] ?></td>
+                <td><?= $value['user'] ?></td>
                 <td><?= $value['email'] ?></td>
+                <td><?= $value['level'] ?></td>
+                <?php
+                    if ($value['aktif'] == 1) $aktif = "Aktif"; else $aktif = "Banned";
+                ?>
                 <td>
-                    <?php
-                        if ($value['aktif'] == 0) {
-                            $aktif = "Aktif";
-                        } else {
-                            $aktif = "Tidak Aktif";
-                        }
-                        
-                    ?>
-                    <a href="<?= base_url() ?>/admin/pelanggan/update/<?= $value['idpelanggan'] ?>/<?= $value['aktif'] ?>"><?= $aktif ?></a>
+                    <a href="<?= base_url() ?>/admin/user/update/<?= $value['iduser'] ?>/<?= $value['aktif'] ?>"><?= $aktif ?></a>
                 </td>
                 <td>
-                    <a href="<?= base_url() ?>/admin/pelanggan/delete/<?= $value['idpelanggan'] ?>"><img class="mr-5" style="width: 30px;" src="<?= base_url('/icon/can.svg') ?>"></a>
+                    <a href="<?= base_url() ?>/admin/user/delete/<?= $value['iduser'] ?>"><img class="mr-5" style="width: 30px;" src="<?= base_url('/icon/can.svg') ?>"></a>
+                    <a href="<?= base_url() ?>/admin/user/find/<?= $value['iduser'] ?>"><img style="width: 30px;" src="<?= base_url('/icon/pen.svg') ?>"></a>
                 </td>
             </tr>
             <?php endforeach; ?>

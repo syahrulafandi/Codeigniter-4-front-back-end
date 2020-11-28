@@ -20,26 +20,26 @@
 </div>
 
 <div class="col-8">
-    <form action="<?= base_url('/admin/menu/insert') ?>" method="post" enctype="multipart/form-data">
-        <label for="Kategori">Kategori</label>
+    <form action="<?= base_url('/admin/user/insert') ?>" method="post">
         <div class="form-group">
-            <select class="form-control" name="idkategori" id="idkategori">
-                <?php foreach($kategori as $key => $value): ?>
-                <option value="<?= $value['idkategori'] ?>"><?= $value['kategori'] ?></option>
+            <label for="Kategori">Username</label>
+            <input class="form-control" type="text" name="user" required>
+        </div>
+        <div class="form-group">
+            <label for="Keterangan">Email</label>
+            <input class="form-control" type="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="Keterangan">Password</label>
+            <input class="form-control" type="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="Kategori">Level</label>
+            <select class="form-control" name="level" id="idkategori">
+                <?php foreach($level as $key): ?>
+                <option value="<?= $key ?>"><?= $key?></option>
                 <?php endforeach; ?>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="Menu">Menu</label>
-            <input class="form-control" type="text" name="menu" required>
-        </div>
-        <div class="form-group">
-            <label for="Harga">Harga</label>
-            <input class="form-control" type="text" name="harga" required>
-        </div>
-        <div class="form-group">
-            <label for="Gambar">Gambar</label>
-            <input class="form-control" type="file" name="gambar" required>
         </div>
         <div class="form-group">
             <input class="btn btn-primary" type="submit" name="simpan" value="SIMPAN">
