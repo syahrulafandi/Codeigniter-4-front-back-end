@@ -1,76 +1,71 @@
 <?= $this->extend('template/admin') ?>
 <?= $this->section('content') ?>
 
-<div class="row">
-<div class="col">
-   <h1>Data order</h1>
-</div>
-</div>
-
 <?php
-    if (isset($_GET['page'])) {
-       $page = $_GET['page'];
-       $jumlah = 2;
-       $no =  ($jumlah * $page) - $jumlah + 1;
+    if (isset($_GET['page_page'])) {
+        $page = $_GET['page_page'];
+        $jumlah = 3;
+        $no = ($jumlah * $page) - $jumlah + 1;
+    } else {
+        $no = 1;
     }
-    else{
-            $no= 1;
-    }
-
 ?>
 
 <div class="row">
-<div class="col">
-<table class="table">
-      <tr>
-<th>No</th>
-        <th>idorder</th>
-        <th>pelanggan</th>
-        <th>tanggal</th>
-        <th>total</th>
-        <th>bayar</th>
-        <th>kembali</th>
-        <th>status</th>
-</tr>
-
-<?php $no ?>
-<?php foreach($order as $value): ?>
-<tr>
-       <td><?= $no++ ?></td>
-       <td><?= $value['idorder'] ?></td>
-       <td><?= $value['pelanggan']?></td>
-       <td><?= $value['tglorder']?></td>
-       <td><?= $value['total']?></td>
-       <td><?= $value['bayar']?></td>
-       <td><?= $value['kembali']?></td>
-
-       <?php 
-           if ($value['status']==1) {
-              $status="lunas";
-           } else {
-               $status= "<a href='".base_url("/admin/order/find")."/".$value['idorder'] ."'>bayar</a>";
-           }
-           
-       ?>
-       <td><?= $status?></td>
-       </tr>
-
-
-<?php endforeach; ?>
-
-
-
-
-
-
-</table>
-
-<?= $pager->makeLinks(1, $perPage, $total, 'bootstrap') ?>
-
-
+    <div class="col-12">
+        <form action="<?= base_url('/admin/orderdetail/cari') ?>" method="post">
+            <div class="form-group col-6 float-left">
+                <label for="Kategori">Tanggal Awal</label>
+                <input class="form-control" type="date" name="awal" required>
+            </div>
+            <div class="form-group col-6 float-left">
+                <label for="Keterangan">Tanggal Akhir</label>
+                <input class="form-control" type="date" name="akhir" required>
+            </div>
+            <div class="form-group ml-3">
+                <input class="btn btn-primary" type="submit" name="simpan" value="Cari">
+            </div>
+        </form>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col">
+        <h3><?= $judul;  ?></h3>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col">
+
+        <table class="table">
+            <tr>
+                <th>No</th>
+                <th>Tanggal</th>
+                <th>Menu</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total</th>
+                <th>Pelanggan</th>
+            </tr>
+            <?php $no ?>
+            <?php foreach($orderdetail as $key => $value): ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $value['tglorder'] ?></td>
+                <td><?= $value['menu'] ?></td>
+                <td><?= $value['harga'] ?></td>
+                <td><?= $value['jumlah'] ?></td>
+                <td><?= $value['jumlah'] * $value['harga'] ?></td>
+                <td><?= $value['pelanggan'] ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+
+        <?= $pager->links('page','bootstrap') ?>
+
+    </div>
 
 </div>
 
 <?= $this->endSection() ?>
-
