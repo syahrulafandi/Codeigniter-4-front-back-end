@@ -11,53 +11,41 @@
     }
 ?>
 
-<div class="row">
-    <div class="col-12">
-        <form action="<?= base_url('/admin/orderdetail/cari') ?>" method="post">
-            <div class="form-group col-6 float-left">
-                <label for="Kategori">Tanggal Awal</label>
-                <input class="form-control" type="date" name="awal" required>
-            </div>
-            <div class="form-group col-6 float-left">
-                <label for="Keterangan">Tanggal Akhir</label>
-                <input class="form-control" type="date" name="akhir" required>
-            </div>
-            <div class="form-group ml-3">
-                <input class="btn btn-primary" type="submit" name="simpan" value="Cari">
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        <h3><?= $judul;  ?></h3>
-    </div>
-</div>
-
 <div class="row mt-2">
     <div class="col">
 
         <table class="table">
             <tr>
                 <th>No</th>
-                <th>Tanggal</th>
-                <th>Menu</th>
-                <th>Harga</th>
-                <th>Jumlah</th>
-                <th>Total</th>
-                <th>Pelanggan</th>
+                <th>Nama</th>
+                <th>Alamat</th>
+                <th>Telepon</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Aksi</th>
             </tr>
             <?php $no ?>
-            <?php foreach($orderdetail as $key => $value): ?>
+            <?php foreach($pelanggan as $key => $value): ?>
             <tr>
                 <td><?= $no++ ?></td>
-                <td><?= $value['tglorder'] ?></td>
-                <td><?= $value['menu'] ?></td>
-                <td><?= $value['harga'] ?></td>
-                <td><?= $value['jumlah'] ?></td>
-                <td><?= $value['jumlah'] * $value['harga'] ?></td>
                 <td><?= $value['pelanggan'] ?></td>
+                <td><?= $value['alamat'] ?></td>
+                <td><?= $value['telp'] ?></td>
+                <td><?= $value['email'] ?></td>
+                <td>
+                    <?php
+                        if ($value['aktif'] == 0) {
+                            $aktif = "Aktif";
+                        } else {
+                            $aktif = "Tidak Aktif";
+                        }
+                        
+                    ?>
+                    <a href="<?= base_url() ?>/admin/pelanggan/update/<?= $value['idpelanggan'] ?>/<?= $value['aktif'] ?>"><?= $aktif ?></a>
+                </td>
+                <td>
+                    <a href="<?= base_url() ?>/admin/pelanggan/delete/<?= $value['idpelanggan'] ?>"><img class="mr-5" style="width: 30px;" src="<?= base_url('/icon/can.svg') ?>"></a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </table>
