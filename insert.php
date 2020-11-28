@@ -5,7 +5,11 @@
     <?php
         if (!empty(session()->getFlashdata('info'))) {
             echo '<div class="alert alert-danger" role="alert">';
-            echo session()->getFlashdata('info');
+            $error = session()->getFlashdata('info');
+            foreach ($error as $key => $value) {
+                echo $key."=>".$value;
+                echo "<br>";
+            } 
             echo '</div>';
         } 
     ?>
@@ -16,14 +20,26 @@
 </div>
 
 <div class="col-8">
-    <form action="<?= base_url('/admin/kategori/insert') ?>" method="post">
+    <form action="<?= base_url('/admin/menu/insert') ?>" method="post" enctype="multipart/form-data">
+        <label for="Kategori">Kategori</label>
         <div class="form-group">
-            <label for="Kategori">Kategori</label>
-            <input class="form-control" type="text" name="kategori" required>
+            <select class="form-control" name="idkategori" id="idkategori">
+                <?php foreach($kategori as $key => $value): ?>
+                <option value="<?= $value['idkategori'] ?>"><?= $value['kategori'] ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
         <div class="form-group">
-            <label for="Keterangan">Keterangan</label>
-            <input class="form-control" type="text" name="keterangan" required>
+            <label for="Menu">Menu</label>
+            <input class="form-control" type="text" name="menu" required>
+        </div>
+        <div class="form-group">
+            <label for="Harga">Harga</label>
+            <input class="form-control" type="text" name="harga" required>
+        </div>
+        <div class="form-group">
+            <label for="Gambar">Gambar</label>
+            <input class="form-control" type="file" name="gambar" required>
         </div>
         <div class="form-group">
             <input class="btn btn-primary" type="submit" name="simpan" value="SIMPAN">
