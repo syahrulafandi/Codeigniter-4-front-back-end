@@ -1,56 +1,82 @@
 <?= $this->extend('template/admin') ?>
 <?= $this->section('content') ?>
 
-<div class="col">
-    <?php
-        if (!empty(session()->getFlashdata('info'))) {
-            echo '<div class="alert alert-danger" role="alert">';
-            $error = session()->getFlashdata('info');
-            foreach ($error as $key => $value) {
-                echo $key."=>".$value;
-                echo "<br>";
+<div class="row">
+    <div class="col">
+        <h1><?= $judul ?></h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p>Pelanggan: <?= $order[0]['pelanggan'] ?></p>
+    </div>
+    <div class="col">
+        <p>Tanggal: <?= date("d-m-Y", strtotime($order[0]['tglorder'])) ?></p>
+    </div>
+    <div class="col">
+        <p>Total: <b><?= number_format($order[0]['total']) ?></b></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <?php
+            if (!empty(session()->getFlashdata('info'))) {
+                echo '<div class="alert alert-danger" role="alert">';
+                echo session()->getFlashdata('info');
+                echo '</div>';
             } 
-            echo '</div>';
-        } 
-    ?>
+        ?>
+    </div>
 </div>
 
-<div class="col">
-    <h3>UPDATE DATA</h3>
+<div class="row">
+    <div class="col-6">
+        <form action="<?= base_url() ?>/admin/order/update" method="post">
+            <div class="form-group">
+                <label for="Kategori">Bayar</label>
+                <input class="form-control" type="number" name="bayar" required>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="total" required value="<?= $order[0]['total'] ?>">
+                <input class="form-control" type="hidden" name="idorder" required value="<?= $order[0]['idorder'] ?>">
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" type="submit" name="simpan" value="Bayar">
+            </div>
+        </form>
+    </div>
 </div>
 
-<div class="col-8">
-    <form action="<?= base_url('/admin/menu/update') ?>" method="post" enctype="multipart/form-data">
-        <label for="Kategori">Kategori</label>
-        <div class="form-group">
-            <select class="form-control" name="idkategori" id="idkategori">
-                <?php foreach($kategori as $key => $value): ?>
-                <option <?php if ($value['idkategori'] == $menu['idkategori']) echo "selected" ?> value="<?= $value['idkategori'] ?>"><?= $value['kategori'] ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="Menu">Menu</label>
-            <input class="form-control" type="text" value="<?= $menu['menu'] ?>" name="menu" required>
-        </div>
-        <div class="form-group">
-            <label for="Harga">Harga</label>
-            <input class="form-control" type="number" value="<?= $menu['harga'] ?>" name="harga" required>
-        </div>
-        <div class="form-group">
-            <label for="Harga">keterangan</label>
-            <input class="form-control" type="text" value="<?= $menu['keterangan'] ?>" name="keterangan" required>
-        </div>
-        <div class="form-group">
-            <label for="Gambar">Gambar</label>
-            <input class="form-control" type="file" name="gambar" >
-        </div>
-        <input class="form-control" type="hidden" value="<?= $menu['gambar'] ?>" name="gambar" required>
-        <input class="form-control" type="hidden" value="<?= $menu['idmenu'] ?>" name="idmenu" required>
-        <div class="form-group">
-            <input class="btn btn-primary" type="submit" name="simpan" value="SIMPAN">
-        </div>
-    </form>
+<div class="row">
+    <div class="col">
+        <h2>Rincian Order</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <tr>
+                <th>No</th>
+                <th>Menu</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total</th>
+            </tr>
+            <?php $no = 1; ?>
+            <?php foreach ($detail as $value) : ?>
+            <tr>
+                <td><?= $no++ ?></td>
+                <td><?= $value['menu'] ?></td>
+                <td><?= $value['hargajual'] ?></td>
+                <td><?= $value['jumlah'] ?></td>
+                <td><?= $value['jumlah'] * $value['hargajual'] ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
 </div>
 
 <?= $this->endSection() ?>
